@@ -1,14 +1,8 @@
 ---
-- name: copying the file
+- name: install git
   hosts: all
   tasks:
-    - name: installing multiple packages
-      apt: 
-        name: "{{ item }}"
+    - name: installing git
+      apt:
+        name: tree
         state: latest
-      with_items:
-          - default-jdk
-          - git
-    -  name: updating the system
-       apt: 
-         update_cache: true
