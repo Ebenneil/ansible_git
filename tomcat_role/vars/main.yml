@@ -1,0 +1,3 @@
+---
+# vars file for tomcat_role
+tomcat_port_number: "8090"

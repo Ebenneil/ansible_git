@@ -1,0 +1,36 @@
+---
+# tasks file for tomcat_role
+- name: apt update 
+  apt:
+    name: "*"
+    state: latest
+      
+- name: install java  
+  apt:
+    name: "{{ java_package }}"
+    state: latest
+
+- name: installing tomcat
+  get_url: 
+      url: "{{ tomcat_url }}"
+      dest: "{{ destination_folder }}"
+
+- name: extracting tar file 
+  unarchive:
+    src: "{{ item }}"
+    dest: "{{ destination_folder }}"
+    remote_src: yes
+  with_items:
+    - "{{ destination_folder_path }}"
+
+- name: changing the port number using template
+  template: 
+    src: tomcat/template/server.xml.j2
+    dest: "{{tomcat_server_path}}"
+
+- name: starting tomcat
+  shell: nohup "{{ destination_folder }}"apache-tomcat-10.0.27/bin/shutdown.sh
+
+- name: starting tomcat
+  shell: nohup "{{ destination_folder }}"apache-tomcat-10.0.27/bin/startup.sh
+
